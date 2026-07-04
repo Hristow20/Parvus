@@ -49,6 +49,7 @@ getgenv().Parvus = {
 
     Games = {
         ["Universal" ] = { Name = "Universal",                  Script = "Universal"  },
+        ["13559584718"] = { Name = "Lone Survival",               Script = "Games/LS"   },
         ["1168263273"] = { Name = "Bad Business",               Script = "Games/BB"   },
         ["3360073263"] = { Name = "Bad Business PTR",           Script = "Games/BB"   },
         ["1586272220"] = { Name = "Steel Titans",               Script = "Games/ST"   },
