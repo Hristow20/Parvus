@@ -28,7 +28,7 @@ local KnownBodyParts = {
 }
 
 local Window = Parvus.Utilities.UI:Window({
-    Name = ("Parvus Hub %s %s"):format(utf8.char(8212), Parvus.Game.Name),
+    Name = ("Parvus Hub %s %s"):format(utf8.char(8212), "Lone Survival"),
     Position = UDim2.new(0.5, -248 * 3, 0.5, -248)
 }) do
 
