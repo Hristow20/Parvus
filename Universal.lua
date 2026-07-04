@@ -10,6 +10,12 @@ local Mouse = LocalPlayer:GetMouse()
 local SilentAim, Aimbot, Trigger = nil, false, false
 local ProjectileSpeed, ProjectileGravity, GravityCorrection = 1000, 196.2, 2
 
+local function GetCaracter(player)
+    local PlayersFolder = Workspace.Players
+    local character = PlayersFolder[player.Name]
+    return character
+end
+
 local KnownBodyParts = {
     {"Head", true}, {"HumanoidRootPart", true},
     {"Torso", false}, {"UpperTorso", false}, {"LowerTorso", false},
@@ -22,7 +28,7 @@ local KnownBodyParts = {
 }
 
 local Window = Parvus.Utilities.UI:Window({
-    Name = ("Parvus Hub %s %s"):format(utf8.char(8212), Parvus.Game.Name),
+    Name = ("Parvus Hub %s %s"):format(utf8.char(8212), "Lone Survival"),
     Position = UDim2.new(0.5, -248 * 3, 0.5, -248)
 }) do
 
@@ -182,7 +188,7 @@ local function WithinReach(Enabled, Distance, Limit)
 end
 local function ObjectOccluded(Enabled, Origin, Position, Object)
     if not Enabled then return false end
-    return Raycast(Origin, Position - Origin, {Object, LocalPlayer.Character})
+    return Raycast(Origin, Position - Origin, {Object, GetCaracter(LocalPlayer)})
 end
 local function SolveTrajectory(Origin, Velocity, Time, Gravity)
     return Origin + Velocity * Time + Gravity * Time * Time / GravityCorrection
@@ -198,7 +204,7 @@ local function GetClosest(Enabled,
     for Index, Player in ipairs(PlayerService:GetPlayers()) do
         if Player == LocalPlayer then continue end
 
-        local Character = Player.Character if not Character then continue end
+        local Character = GetCaracter(Player) if not Character then continue end
         if not InEnemyTeam(TeamCheck, Player) then continue end
 
         local Humanoid = Character:FindFirstChildOfClass("Humanoid")
