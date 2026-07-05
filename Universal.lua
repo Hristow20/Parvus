@@ -10,12 +10,6 @@ local Mouse = LocalPlayer:GetMouse()
 local SilentAim, Aimbot, Trigger = nil, false, false
 local ProjectileSpeed, ProjectileGravity, GravityCorrection = 1000, 196.2, 2
 
-local function GetCaracter(player)
-    local PlayersFolder = Workspace.Players
-    local character = PlayersFolder[player.Name]
-    return character
-end
-
 local KnownBodyParts = {
     {"Head", true}, {"HumanoidRootPart", true},
     {"Torso", false}, {"UpperTorso", false}, {"LowerTorso", false},
@@ -27,8 +21,21 @@ local KnownBodyParts = {
     {"Left Leg", false}, {"LeftUpperLeg", false}, {"LeftLowerLeg", false}, {"LeftFoot", false}
 }
 
+local function GetCharacter(player)
+	if not player then
+		return nil
+	end
+
+	local playersFolder = Workspace:FindFirstChild("Players")
+	if not playersFolder then
+		return nil
+	end
+
+	return playersFolder:FindFirstChild(player.Name)
+end
+
 local Window = Parvus.Utilities.UI:Window({
-    Name = ("Parvus Hub %s %s"):format(utf8.char(8212), Parvus.Game.Name),
+    Name = ("Parvus Hub %s %s"):format(utf8.char(8212), "Parvus.Game.Name"),
     Position = UDim2.new(0.5, -248 * 3, 0.5, -248)
 }) do
 
@@ -188,7 +195,7 @@ local function WithinReach(Enabled, Distance, Limit)
 end
 local function ObjectOccluded(Enabled, Origin, Position, Object)
     if not Enabled then return false end
-    return Raycast(Origin, Position - Origin, {Object, GetCaracter(LocalPlayer)})
+    return Raycast(Origin, Position - Origin, {Object, LocalPlayer.Character})
 end
 local function SolveTrajectory(Origin, Velocity, Time, Gravity)
     return Origin + Velocity * Time + Gravity * Time * Time / GravityCorrection
@@ -204,7 +211,7 @@ local function GetClosest(Enabled,
     for Index, Player in ipairs(PlayerService:GetPlayers()) do
         if Player == LocalPlayer then continue end
 
-        local Character = GetCaracter(Player) if not Character then continue end
+        local Character = GetCharacter(Player) if not Character then continue end
         if not InEnemyTeam(TeamCheck, Player) then continue end
 
         local Humanoid = Character:FindFirstChildOfClass("Humanoid")
